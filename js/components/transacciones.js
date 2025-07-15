@@ -63,8 +63,6 @@ function cargarTransacciones() {
 
 function cargarCategoriasEnFormulario() {
   obtenerCategorias(categorias => {
-    console.log('Categorías disponibles:', categorias); // 🐞 DEBUG
-
     selectCategoria.innerHTML = '';
     categorias.forEach(c => {
       const opt = document.createElement('option');
