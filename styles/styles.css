@@ -9,14 +9,14 @@ body {
   font-family: 'Tahoma', sans-serif;
   background-color: #f8f9fa;
   color: #333;
-  padding: 20px;
+  /*padding: 20px;*/
 }
 
 header {
   background-color: #328b1c;
   color: white;
   padding: 15px 20px;
-  border-radius: 10px;
+  /*border-radius: 10px;*/
   margin-bottom: 20px;
 }
 
@@ -43,11 +43,13 @@ nav button:hover {
 
 .seccion {
   display: none;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .seccion.activa {
   display: block;
-  background-color: #fff;
+  background-color: #bfbfbf;
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -59,12 +61,29 @@ form {
   margin-bottom: 15px;
 }
 
-form input[type="text"] {
-  flex: 1;
-  padding: 10px;
+form input,
+form select {
+  padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
   margin-top: 8px;
+  transition: border-color 0.2s;
+  appearance: none; /* elimina el estilo nativo en select */
+}
+
+form input:focus,
+form select:focus {
+  border-color: #1da81f;
+  border-width: 2px;
+  box-shadow: 0 0 0 2px #d6eaff;
+}
+
+form input[type="number"]::-webkit-inner-spin-button,
+form input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 form button {
@@ -98,7 +117,7 @@ li {
 }
 
 li button {
-  background-color: #ff4c4c;
+  background-color: #ff1c1c;
   color: white;
   border: none;
   padding: 6px 12px;
@@ -109,4 +128,27 @@ li button {
 
 li button:hover {
   background-color: #d73838;
+}
+
+.custom-select {
+  position: relative;
+  width: 180px; /* ajustable */
+}
+
+.custom-select select {
+  width: 100%;
+  padding-right: 35px; /* espacio para el icono */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.custom-select i {
+  position: absolute;
+  right: 12px;
+  top: 55%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #666;
+  font-size: 0.9rem;
 }

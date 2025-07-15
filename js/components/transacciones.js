@@ -2,13 +2,22 @@ const formTransaccion = document.getElementById('formTransaccion');
 const listaTransacciones = document.getElementById('listaTransacciones');
 const selectCategoria = document.getElementById('categoriaTransaccion');
 
+function formatearFechaHora(date) {
+  const options = {
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: 'numeric', minute: '2-digit',
+    hour12: true
+  };
+  return new Intl.DateTimeFormat('es-ES', options).format(date);
+}
+
 formTransaccion.addEventListener('submit', function (e) {
     e.preventDefault();
 
     const tipo = formTransaccion.tipo.value;
     const monto = parseFloat(formTransaccion.monto.value);
     const ahora = new Date();
-    const fecha = `${ahora.toISOString().slice(0, 10)} ${ahora.toTimeString().slice(0, 5)}`; // YYYY-MM-DD HH:MM
+    const fecha = formatearFechaHora(ahora);
     const categoriaId = parseInt(formTransaccion.categoria.value);
     const descripcion = formTransaccion.descripcion.value.trim();
 
