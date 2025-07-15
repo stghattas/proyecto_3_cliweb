@@ -129,3 +129,26 @@ li button {
 li button:hover {
   background-color: #d73838;
 }
+
+.custom-select {
+  position: relative;
+  width: 180px; /* ajustable */
+}
+
+.custom-select select {
+  width: 100%;
+  padding-right: 35px; /* espacio para el icono */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.custom-select i {
+  position: absolute;
+  right: 12px;
+  top: 55%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #666;
+  font-size: 0.9rem;
+}

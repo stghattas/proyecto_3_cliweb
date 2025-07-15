@@ -2,52 +2,61 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Finanzas Web</title>
-    <link rel="stylesheet" href="styles/styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finanzas Web</title>
+  <link rel="stylesheet" href="styles/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <header>
-        <h1>Finanzas Personales</h1>
-        <nav>
-            <button id="btnCategorias">Categorías</button>
-            <button id="btnTransacciones">Transacciones</button>
-        </nav>
-    </header>
+  <header>
+    <h1>Finanzas Personales</h1>
+    <nav>
+      <button id="btnCategorias">Categorías</button>
+      <button id="btnTransacciones">Transacciones</button>
+    </nav>
+  </header>
 
-    <main>
-        <section id="seccionCategorias" class="seccion">
-            <h2>Categorías</h2>
-            <form id="formCategoria">
-                <input type="text" id="nombreCategoria" placeholder="Nombre de categoría" required />
-                <button type="submit">Agregar</button>
-            </form>
-            <ul id="listaCategorias"></ul>
-        </section>
+  <main>
+    <section id="seccionCategorias" class="seccion">
+      <h2>Categorías</h2>
+      <form id="formCategoria">
+        <input type="text" id="nombreCategoria" placeholder="Nombre de categoría" required />
+        <button type="submit">Agregar</button>
+      </form>
+      <ul id="listaCategorias"></ul>
+    </section>
 
-        <section id="seccionTransacciones" class="seccion">
-            <h2>Transacciones</h2>
-            <form id="formTransaccion">
-                <select name="tipo" required>
-                    <option value="Ingreso">Ingreso</option>
-                    <option value="Egreso">Egreso</option>
-                </select>
-                <input type="number" name="monto" placeholder="Monto" required step="0.01" min="0.01" />
-                <select name="categoria" id="categoriaTransaccion" required></select>
-                <input type="text" name="descripcion" placeholder="Descripción (opcional)" />
-                <button type="submit">Agregar</button>
-            </form>
-            <ul id="listaTransacciones"></ul>
-        </section>
+    <section id="seccionTransacciones" class="seccion">
+      <h2>Transacciones</h2>
+      <form id="formTransaccion">
+        <div class="custom-select">
+          <select name="tipo" required>
+            <option value="Ingreso">Ingreso</option>
+            <option value="Egreso">Egreso</option>
+          </select>
+          <i class="fa-solid fa-chevron-down" style="color: #000000;"></i>
+        </div>
 
-    </main>
+        <input type="number" name="monto" placeholder="Monto" required step="0.01" min="0.01" />
 
-    <script src="js/db.js"></script>
-    <script src="js/components/categorias.js"></script>
-    <script src="js/components/transacciones.js"></script>
-    <script src="js/app.js"></script>
+        <div class="custom-select">
+          <select name="categoria" id="categoriaTransaccion" required></select>
+          <i class="fa-solid fa-chevron-down" style="color: #000000;"></i>
+        </div>
+
+        <input type="text" name="descripcion" placeholder="Descripción (opcional)" />
+        <button type="submit">Agregar</button>
+      </form>
+      <ul id="listaTransacciones"></ul>
+    </section>
+  </main>
+
+  <script src="js/db.js"></script>
+  <script src="js/components/categorias.js"></script>
+  <script src="js/components/transacciones.js"></script>
+  <script src="js/app.js"></script>
 </body>
 
 </html>
