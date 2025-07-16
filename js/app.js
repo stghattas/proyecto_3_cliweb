@@ -20,6 +20,14 @@ document.addEventListener('DOMContentLoaded', function () {
     btnCategorias.addEventListener('click', function () {
         mostrarSeccion(seccionCategorias);
     });
+    const btnPresupuestos = document.getElementById('btnPresupuestos');
+    const seccionPresupuestos = document.getElementById('seccionPresupuestos');
+
+    btnPresupuestos.addEventListener('click', () => {
+        mostrarSeccion(seccionPresupuestos);
+        cargarCategoriasEnPresupuesto();
+        cargarPresupuestos();
+    });
 });
 
 function mostrarSeccion(seccionActiva) {
