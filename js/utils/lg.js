@@ -8,20 +8,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const contenidoApp = document.getElementById('contenidoApp');
 
   // Cambiar a vista de registro
-  document.getElementById('goToRegister').addEventListener('click', (e) => {
-    e.preventDefault();
-    loginView.classList.add('hidden');
-    registerView.classList.remove('hidden');
-    loginMessage.classList.add('hidden');
-  });
+  const goToRegister = document.getElementById('goToRegister');
+  if (goToRegister) {
+    goToRegister.addEventListener('click', (e) => {
+      e.preventDefault();
+      loginView.classList.add('hidden');
+      registerView.classList.remove('hidden');
+      loginMessage.classList.add('hidden');
+    });
+  }
 
   // Cambiar a vista de login
-  document.getElementById('goToLogin').addEventListener('click', (e) => {
-    e.preventDefault();
-    registerView.classList.add('hidden');
-    loginView.classList.remove('hidden');
-    registerMessage.classList.add('hidden');
-  });
+  const goToLogin = document.getElementById('goToLogin');
+  if (goToLogin) {
+    goToLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      registerView.classList.add('hidden');
+      loginView.classList.remove('hidden');
+      registerMessage.classList.add('hidden');
+    });
+  }
 
   // Manejar registro
   registerForm.addEventListener('submit', (e) => {
@@ -33,15 +39,19 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('user', JSON.stringify({ username, password }));
       registerMessage.textContent = 'Registro exitoso. Ahora puedes iniciar sesión.';
       registerMessage.className = 'success';
+      registerMessage.classList.remove('hidden');
+
       setTimeout(() => {
         registerView.classList.add('hidden');
         loginView.classList.remove('hidden');
+        document.getElementById('username').value = username; // Autocompletar
+        registerForm.reset();
       }, 1500);
     } else {
       registerMessage.textContent = 'Completa todos los campos.';
       registerMessage.className = 'error';
+      registerMessage.classList.remove('hidden');
     }
-    registerMessage.classList.remove('hidden');
   });
 
   // Manejar login
@@ -55,6 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (storedUser && storedUser.username === username && storedUser.password === password) {
       loginMessage.textContent = '¡Bienvenido!';
       loginMessage.className = 'success';
+      loginMessage.classList.remove('hidden');
+
       setTimeout(() => {
         document.getElementById('authWrapper').classList.add('hidden');
         contenidoApp.classList.remove('hidden');
@@ -62,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       loginMessage.textContent = 'Usuario o clave incorrectos.';
       loginMessage.className = 'error';
+      loginMessage.classList.remove('hidden');
     }
-    loginMessage.classList.remove('hidden');
   });
 });
