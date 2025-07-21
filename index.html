@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finanzas Web</title>
+  <link rel="stylesheet" href="styles/styles.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- BLOQUE DE LOGIN/REGISTRO -->
+  <div id="authWrapper">
+    
+    <!-- LOGIN -->
+    <div class="login-container" id="loginView">
+      <h2>Iniciar Sesión</h2>
+      <form id="loginForm">
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username" required />
+
+        <label for="password">Clave:</label>
+        <input type="password" id="password" name="password" required />
+
+        <button type="submit">Ingresar</button>
+      </form>
+      <p id="loginMessage" class="hidden"></p>
+      <p><a href="#" id="goToRegister">¿No tienes cuenta? Regístrate</a></p>
+    </div>
+
+    <!-- REGISTRO -->
+    <div class="login-container hidden" id="registerView">
+      <h2>Registro</h2>
+      <form id="registerForm">
+        <label for="regUsername">Usuario:</label>
+        <input type="text" id="regUsername" name="regUsername" required />
+
+        <label for="regPassword">Clave:</label>
+        <input type="password" id="regPassword" name="regPassword" required />
+
+        <button type="submit">Registrarse</button>
+      </form>
+      <p id="registerMessage" class="hidden"></p>
+      <p><a href="#" id="goToLogin">¿Ya tienes cuenta? Inicia sesión</a></p>
+    </div>
+
+  </div>
+
+  <!-- APLICACIÓN PRINCIPAL -->
+  <div id="contenidoApp" class="hidden">
+    <header>
+      <h1>Finanzas Personales</h1>
+      <nav>
+        <button id="btnCategorias">Categorías</button>
+        <button id="btnTransacciones">Transacciones</button>
+        <button id="btnPresupuestos">Presupuestos</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Sección Categorías -->
+      <section id="seccionCategorias" class="seccion">
+        <h2>Categorías</h2>
+        <form id="formCategoria">
+          <input type="text" id="nombreCategoria" placeholder="Nombre de categoría" required />
+          <button type="submit">Agregar</button>
+        </form>
+        <ul id="listaCategorias"></ul>
+      </section>
+
+      <!-- Sección Transacciones -->
+      <section id="seccionTransacciones" class="seccion">
+        <h2>Transacciones</h2>
+        <form id="formTransaccion">
+          <div class="custom-select">
+            <select name="tipo" required>
+              <option value="Ingreso">Ingreso</option>
+              <option value="Egreso">Egreso</option>
+            </select>
+            <i class="fa-solid fa-chevron-down" style="color: #000000;"></i>
+          </div>
+
+          <input type="number" name="monto" placeholder="Monto" required step="0.01" min="0.01" />
+
+          <div class="custom-select">
+            <select name="categoria" id="categoriaTransaccion" required></select>
+            <i class="fa-solid fa-chevron-down" style="color: #000000;"></i>
+          </div>
+
+          <input type="text" name="descripcion" placeholder="Descripción (opcional)" />
+          <button type="submit">Agregar</button>
+        </form>
+        <ul id="listaTransacciones"></ul>
+      </section>
+
+      <!-- Sección Presupuestos -->
+      <section id="seccionPresupuestos" class="seccion">
+        <h2>Presupuestos</h2>
+        <form id="formPresupuesto">
+          <div class="custom-select">
+            <select name="categoria" id="categoriaPresupuesto" required></select>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <input type="number" name="monto" placeholder="Monto estimado" required step="0.01" min="0.01" />
+          <button type="submit">Guardar</button>
+        </form>
+        <ul id="listaPresupuestos"></ul>
+      </section>
+    </main>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/db.js"></script>
+  <script src="js/components/categorias.js"></script>
+  <script src="js/components/transacciones.js"></script>
+  <script src="js/components/presupuestos.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/lg.js"></script>
+</body>
+</html>
