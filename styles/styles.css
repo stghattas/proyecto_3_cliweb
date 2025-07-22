@@ -179,7 +179,7 @@ li button:hover {
 }
 :root {
   --primario: #328b1c;      /* Verde del header */
-  --secundario: #e3f0e8;    /* Un verde claro, tono suave de fondo */
+  --secundario: #e3f0e8;
   --texto-claro: #ffffff;
   --texto-oscuro: #333333;
 }
@@ -233,10 +233,119 @@ li button:hover {
   background: var(--secundario);
   color: var(--texto-oscuro);
 }
+
 .login-container h2,
 .login-container label {
   color: var(--texto-oscuro);
 }
+
 .hidden {
   display: none !important;
+}
+
+/* LOGIN & REGISTER, ajustes */
+
+#authWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #eaf5ec;
+}
+
+.login-container {
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  max-width: 400px;
+  width: 90%;
+  margin: 20px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.8rem;
+  color: #328b1c;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-container label {
+  font-weight: bold;
+  color: #333;
+}
+
+.login-container input {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.2s;
+  font-size: 1rem;
+}
+
+.login-container input:focus {
+  border-color: #328b1c;
+  outline: none;
+}
+
+.login-container button {
+  margin-top: 8px;
+  padding: 12px;
+  background: #328b1c;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.login-container button:hover {
+  background: #286c15;
+}
+
+.login-container a {
+  display: block;
+  margin-top: 16px;
+  text-align: center;
+  color: #328b1c;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.login-container a:hover {
+  color: #286c15;
+}
+
+.success,
+.error {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: bold;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.success {
+  color: #1d5c0f;
+  background: #d8f3dc;
+}
+
+.error {
+  color: #a30000;
+  background: #ffe1e1;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
