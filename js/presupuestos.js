@@ -14,41 +14,67 @@ formPresupuesto.addEventListener('submit', function (e) {
     const monto = parseFloat(formPresupuesto.monto.value);
     const { anio, mes } = getFechaActual();
 
-    if (isNaN(monto) || monto <= 0) return alert('Monto invalido');
+    if (isNaN(monto) || monto <= 0) return alert('Monto inválido');
 
     guardarPresupuesto({ categoriaId, monto, anio, mes });
     formPresupuesto.reset();
-    setTimeout(() => cargarPresupuestos(), 100);
+
+    setTimeout(() => {
+        cargarPresupuestos();
+    }, 300);
 });
 
 function cargarPresupuestos() {
     const { anio, mes } = getFechaActual();
     obtenerPresupuestosDelMes(anio, mes, presupuestos => {
         obtenerCategorias(categorias => {
-            listaPresupuestos.innerHTML = '';
-            presupuestos.forEach(p => {
-                const cat = categorias.find(c => c.id === p.categoriaId);
-                const li = document.createElement('li');
-                li.classList.add('item-presupuesto');
+            obtenerTransacciones(transacciones => {
+                listaPresupuestos.innerHTML = '';
 
-                const nombre = document.createElement('span');
-                nombre.className = 'nombre-categoria';
-                nombre.textContent = (cat?.nombre || 'Sin categoría') + ':';
+                presupuestos.forEach(p => {
+                    const cat = categorias.find(c => c.id === p.categoriaId);
 
-                const detalle = document.createElement('span');
-                detalle.className = 'detalle-monto';
-                detalle.textContent = `$${p.monto.toFixed(2)} (${mes}/${anio})`;
+                    const transaccionesCatMes = transacciones.filter(tx => {
+                        const fechaTx = new Date(tx.fecha);
+                        return tx.categoriaId === p.categoriaId &&
+                            fechaTx.getFullYear() === anio &&
+                            (fechaTx.getMonth() + 1) === mes;
+                    });
 
-                const btnEliminar = document.createElement('button');
-                btnEliminar.textContent = 'Eliminar';
-                btnEliminar.onclick = () => {
-                    if (confirm('¿Eliminar presupuesto?')) {
-                        eliminarPresupuesto(p.id, cargarPresupuestos);
-                    }
-                };
+                    let totalIngresos = 0;
+                    let totalEgresos = 0;
 
-                li.append(nombre, detalle, btnEliminar);
-                listaPresupuestos.appendChild(li);
+                    transaccionesCatMes.forEach(tx => {
+                        if (tx.tipo === 'Ingreso') totalIngresos += tx.monto;
+                        else if (tx.tipo === 'Egreso') totalEgresos += tx.monto;
+                    });
+
+                    const saldo = p.monto + totalIngresos - totalEgresos;
+
+                    const li = document.createElement('li');
+                    li.classList.add('item-presupuesto');
+
+                    const nombre = document.createElement('span');
+                    nombre.className = 'nombre-categoria';
+                    nombre.textContent = (cat?.nombre || 'Sin categoría') + ':';
+
+                    const detalle = document.createElement('span');
+                    detalle.className = 'detalle-monto';
+                    detalle.textContent =
+                        `Presupuesto: $${p.monto.toFixed(2)} | ` +
+                        `Saldo actual: $${saldo.toFixed(2)} (${mes}/${anio})`;
+
+                    const btnEliminar = document.createElement('button');
+                    btnEliminar.textContent = 'Eliminar';
+                    btnEliminar.onclick = () => {
+                        if (confirm('¿Eliminar presupuesto?')) {
+                            eliminarPresupuesto(p.id, cargarPresupuestos);
+                        }
+                    };
+
+                    li.append(nombre, detalle, btnEliminar);
+                    listaPresupuestos.appendChild(li);
+                });
             });
         });
     });
@@ -65,3 +91,6 @@ function cargarCategoriasEnPresupuesto() {
         });
     });
 }
+
+// Hacer disponible globalmente
+window.cargarPresupuestos = cargarPresupuestos;
