@@ -177,3 +177,66 @@ li button:hover {
   margin-right: auto;
   color: #333;
 }
+:root {
+  --primario: #328b1c;      /* Verde del header */
+  --secundario: #e3f0e8;    /* Un verde claro, tono suave de fondo */
+  --texto-claro: #ffffff;
+  --texto-oscuro: #333333;
+}
+
+
+.login-container {
+  background: var(--secundario);
+  padding: 24px;
+  border-radius: 8px;
+  max-width: 360px;
+  margin: 40px auto;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  color: var(--texto-claro);
+}
+
+.login-container h2 {
+  margin-bottom: 16px;
+  text-align: center;
+  color: var(--texto-claro);
+}
+
+.login-container label {
+  display: block;
+  margin-top: 12px;
+  color: var(--texto-claro);
+}
+
+.login-container input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid var(--texto-oscuro);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.login-container button {
+  margin-top: 18px;
+  width: 100%;
+  padding: 12px;
+  background: var(--primario);
+  color: var(--texto-claro);
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.login-container {
+  background: var(--secundario);
+  color: var(--texto-oscuro);
+}
+.login-container h2,
+.login-container label {
+  color: var(--texto-oscuro);
+}
+.hidden {
+  display: none !important;
+}
