@@ -3,12 +3,13 @@ const listaTransacciones = document.getElementById('listaTransacciones');
 const selectCategoria = document.getElementById('categoriaTransaccion');
 
 function formatearFechaHora(date) {
-  const options = {
-    year: 'numeric', month: '2-digit', day: '2-digit',
-    hour: 'numeric', minute: '2-digit',
-    hour12: true
-  };
-  return new Intl.DateTimeFormat('es-ES', options).format(date);
+    if (!(date instanceof Date) || isNaN(date)) return 'Fecha inválida';
+    const options = {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: 'numeric', minute: '2-digit',
+        hour12: true
+    };
+    return new Intl.DateTimeFormat('es-ES', options).format(date);
 }
 
 formTransaccion.addEventListener('submit', function (e) {
@@ -17,7 +18,7 @@ formTransaccion.addEventListener('submit', function (e) {
     const tipo = formTransaccion.tipo.value;
     const monto = parseFloat(formTransaccion.monto.value);
     const ahora = new Date();
-    const fecha = formatearFechaHora(ahora);
+    const fecha = ahora.toISOString(); // Fecha válida para procesamiento
     const categoriaId = parseInt(formTransaccion.categoria.value);
     const descripcion = formTransaccion.descripcion.value.trim();
 
@@ -26,8 +27,10 @@ formTransaccion.addEventListener('submit', function (e) {
     agregarTransaccion({ tipo, monto, fecha, categoriaId, descripcion });
 
     formTransaccion.reset();
+
     setTimeout(() => {
         cargarTransacciones();
+        if (typeof cargarPresupuestos === 'function') cargarPresupuestos(); // actualiza presupuestos también
     }, 100);
 });
 
@@ -43,15 +46,18 @@ function cargarTransacciones() {
           <div>
             <strong>${tx.tipo}:</strong> $${tx.monto.toFixed(2)} -
             ${categoria ? categoria.nombre : 'Sin categoría'} 
-            <br><small>${tx.fecha}</small><br>
+            <br><small>${formatearFechaHora(new Date(tx.fecha))}</small><br>
             <em>${tx.descripcion || ''}</em>
           </div>
         `;
                 const btnEliminar = document.createElement('button');
                 btnEliminar.textContent = 'Eliminar';
                 btnEliminar.onclick = () => {
-                    if (confirm('¿Eliminar transaccion?')) {
-                        eliminarTransaccion(tx.id, cargarTransacciones);
+                    if (confirm('¿Eliminar transacción?')) {
+                        eliminarTransaccion(tx.id, () => {
+                            cargarTransacciones();
+                            if (typeof cargarPresupuestos === 'function') cargarPresupuestos();
+                        });
                     }
                 };
                 li.appendChild(btnEliminar);
@@ -62,14 +68,13 @@ function cargarTransacciones() {
 }
 
 function cargarCategoriasEnFormulario() {
-  obtenerCategorias(categorias => {
-    selectCategoria.innerHTML = '';
-    categorias.forEach(c => {
-      const opt = document.createElement('option');
-      opt.value = c.id;
-      opt.textContent = c.nombre;
-      selectCategoria.appendChild(opt);
+    obtenerCategorias(categorias => {
+        selectCategoria.innerHTML = '';
+        categorias.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.textContent = c.nombre;
+            selectCategoria.appendChild(opt);
+        });
     });
-  });
 }
-
