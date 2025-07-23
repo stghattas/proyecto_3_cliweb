@@ -11,24 +11,18 @@
 <body>
   <!-- BLOQUE DE LOGIN/REGISTRO -->
   <div id="authWrapper">
-    
     <!-- LOGIN -->
     <div class="login-container" id="loginView">
       <h2>Iniciar Sesión</h2>
       <form id="loginForm">
         <label for="username">Usuario:</label>
         <input type="text" id="username" name="username" required />
-
         <label for="password">Clave:</label>
         <input type="password" id="password" name="password" required />
-
         <button type="submit">Ingresar</button>
       </form>
       <p id="loginMessage" class="hidden"></p>
-
-      <!-- ✅ ENLACE CORRECTO CON ID -->
       <a href="#" id="goToRegister">¿No tienes cuenta? Regístrate</a>
-
     </div>
 
     <!-- REGISTRO -->
@@ -37,18 +31,13 @@
       <form id="registerForm">
         <label for="regUsername">Usuario:</label>
         <input type="text" id="regUsername" name="regUsername" required />
-
         <label for="regPassword">Clave:</label>
         <input type="password" id="regPassword" name="regPassword" required />
-
         <button type="submit">Registrarse</button>
       </form>
       <p id="registerMessage" class="hidden"></p>
-
-      <!-- ✅ ENLACE CORRECTO CON ID -->
       <a href="#" id="goToLogin">¿Ya tienes cuenta? Inicia sesión</a>
     </div>
-
   </div>
 
   <!-- APLICACIÓN PRINCIPAL -->
@@ -59,6 +48,9 @@
         <button id="btnCategorias">Categorías</button>
         <button id="btnTransacciones">Transacciones</button>
         <button id="btnPresupuestos">Presupuestos</button>
+        <button id="btnGraficos" onclick="document.getElementById('seccionGraficos').scrollIntoView();">
+          Gráficos
+        </button>
       </nav>
     </header>
 
@@ -84,14 +76,11 @@
             </select>
             <i class="fa-solid fa-chevron-down" style="color: #000000;"></i>
           </div>
-
           <input type="number" name="monto" placeholder="Monto" required step="0.01" min="0.01" />
-
           <div class="custom-select">
             <select name="categoria" id="categoriaTransaccion" required></select>
             <i class="fa-solid fa-chevron-down" style="color: #000000;"></i>
           </div>
-
           <input type="text" name="descripcion" placeholder="Descripción (opcional)" />
           <button type="submit">Agregar</button>
         </form>
@@ -111,12 +100,68 @@
         </form>
         <ul id="listaPresupuestos"></ul>
       </section>
+
+      <!-- Sección de Gráficos -->
+      <!-- Sección de Gráficos -->
+<section id="seccionGraficos" class="seccion">
+  <h2>Dashboard Gráfico</h2>
+
+  <!-- Gráfico dinámico por categoría seleccionada -->
+  <div class="grafico-wrapper">
+    <h3>Resumen por Categoría</h3>
+    <div class="selector-categoria">
+      <label for="selectCategoriaGrafico">Selecciona una categoría:</label>
+      <select id="selectCategoriaGrafico">
+        <option value="">Selecciona una categoría</option>
+      </select>
+    </div>
+    <canvas id="graficoCategoriaSeleccionada" height="250"></canvas>
+  </div>
+
+  <!-- Navegación entre gráficos -->
+  <div class="navegacion-graficos">
+    <button id="btnAnterior">Anterior</button>
+    <button id="btnSiguiente">Siguiente</button>
+  </div>
+
+  <!-- Contenedores individuales de cada gráfico general -->
+  <div class="graficos-container">
+    <div class="grafico-wrapper">
+      <h3>Distribución Ingresos vs Egresos</h3>
+      <canvas id="graficoDistribucion" width="400" height="200"></canvas>
+    </div>
+    <div class="grafico-wrapper">
+      <h3>Egresos por Categoría</h3>
+      <canvas id="graficoGastosCategoria" width="400" height="200"></canvas>
+    </div>
+    <div class="grafico-wrapper">
+      <h3>Evolución del Balance Mensual</h3>
+      <canvas id="graficoBalanceMensual" width="400" height="200"></canvas>
+    </div>
+    <div class="grafico-wrapper">
+      <h3>Ingresos Estimados vs Reales</h3>
+      <canvas id="graficoIngresos" width="400" height="200"></canvas>
+    </div>
+    <div class="grafico-wrapper">
+      <h3>Balance Estimado vs Real por Categoría</h3>
+      <canvas id="graficoEvolucion" width="400" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- Transacciones recientes -->
+  <div class="transacciones-recientes">
+    <h3>Transacciones Recientes</h3>
+    <ul id="listaTransaccionesRecientes"></ul>
+  </div>
+</section>
+
     </main>
   </div>
 
   <div id="alertaContainer"></div>
 
-  <!-- SCRIPTS -->
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="js/db.js"></script>
   <script src="js/categorias.js"></script>
   <script src="js/transacciones.js"></script>
@@ -124,5 +169,6 @@
   <script src="js/app.js"></script>
   <script src="js/lg.js"></script>
   <script src="js/utils/alertas.js"></script>
+  <script src="js/charts.js"></script>
 </body>
 </html>
