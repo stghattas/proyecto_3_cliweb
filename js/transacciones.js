@@ -22,7 +22,7 @@ formTransaccion.addEventListener('submit', function (e) {
     const categoriaId = parseInt(formTransaccion.categoria.value);
     const descripcion = formTransaccion.descripcion.value.trim();
 
-    if (isNaN(monto) || monto <= 0) return alert("Monto inválido");
+    if (isNaN(monto) || monto <= 0) return mostrarError('error', 'Monto inválido');
 
     // Verificar presupuesto antes de registrar transacción
     const anio = ahora.getFullYear();
@@ -53,12 +53,25 @@ formTransaccion.addEventListener('submit', function (e) {
                 if (tipo === 'Egreso') {
                     const porcentajeUsado = (totalEgresos + monto) / (presupuesto.monto + totalIngresos);
 
-                    if (porcentajeUsado >= 1) {4
-                        alert('⚠️ Advertencia: Esta transaccion dejara el presupuesto en 0.')
+                    if (porcentajeUsado > 1) {
+                        mostrarError('Esta transacción excede el presupuesto disponible y no se registrará.');
+                        return;
+                    }
+
+                    let mensajeAdvertencia = '';
+                    if (porcentajeUsado === 1) {
+                        mensajeAdvertencia = 'Esta transacción dejará tu presupuesto en 0. ¿Deseas continuar?';
                     } else if (porcentajeUsado >= 0.8) {
-                        alert('⚠️ Advertencia: Estás cerca de superar el presupuesto.');
-                    } else if (porcentajeUsado > 1) {
-                        alert('❌ Esta transacción excede el presupuesto disponible. No se registrará.');
+                        mensajeAdvertencia = 'Estás por alcanzar tu presupuesto. ¿Deseas continuar?';
+                    }
+
+                    //en consola se muestra
+                    if (mensajeAdvertencia) {
+                        mostrarAdvertencia(mensajeAdvertencia, () => {
+                            procesarTransaccion({ tipo, monto, fecha, categoriaId, descripcion });
+                        }, () => {
+                            console.log('Transacción cancelada por el usuario.');
+                        });
                         return;
                     }
                 }
@@ -148,4 +161,13 @@ function cargarCategoriasEnFormulario() {
             selectCategoria.appendChild(opt);
         });
     });
+}
+
+function procesarTransaccion(data) {
+    agregarTransaccion(data);
+    formTransaccion.reset();
+    setTimeout(() => {
+        cargarTransacciones();
+        if (typeof cargarPresupuestos === 'function') cargarPresupuestos();
+    }, 100);
 }

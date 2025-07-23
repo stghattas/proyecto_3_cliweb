@@ -1,7 +1,7 @@
 let db;
 
 function abrirDB(callback) {
-  const request = indexedDB.open('FinanzasDB', 4); //!!!Aumentar cada que se cambia de version!!!
+  const request = indexedDB.open('FinanzasDB', 5); //!!!Aumentar cada que se cambia de version!!!
 
   request.onupgradeneeded = function (e) {
     db = e.target.result;

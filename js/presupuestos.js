@@ -14,12 +14,12 @@ formPresupuesto.addEventListener('submit', function (e) {
     const monto = parseFloat(formPresupuesto.monto.value);
     const { anio, mes } = getFechaActual();
 
-    if (isNaN(monto) || monto <= 0) return alert('Monto inválido');
+    if (isNaN(monto) || monto <= 0) return mostrarError('Monto inválido');
 
     obtenerPresupuestosDelMes(anio, mes, existentes => {
         const existe = existentes.find(p => p.categoriaId === categoriaId);
         if (existe) {
-            alert('Ya existe un presupuesto para esta categoría este mes. Elimínalo para agregar uno nuevo.');
+            mostrarAdvertencia('Ya existe un presupuesto para esta categoría este mes. Elimínalo para agregar uno nuevo.');
             return;
         }
 
