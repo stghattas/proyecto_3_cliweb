@@ -14,14 +14,19 @@ formPresupuesto.addEventListener('submit', function (e) {
     const monto = parseFloat(formPresupuesto.monto.value);
     const { anio, mes } = getFechaActual();
 
-    if (isNaN(monto) || monto <= 0) return alert('Monto inválido');
+    if (isNaN(monto) || monto <= 0) return mostrarError('Monto inválido');
 
-    guardarPresupuesto({ categoriaId, monto, anio, mes });
-    formPresupuesto.reset();
+    obtenerPresupuestosDelMes(anio, mes, existentes => {
+        const existe = existentes.find(p => p.categoriaId === categoriaId);
+        if (existe) {
+            mostrarAdvertencia('Ya existe un presupuesto para esta categoría este mes. Elimínalo para agregar uno nuevo.');
+            return;
+        }
 
-    setTimeout(() => {
-        cargarPresupuestos();
-    }, 300);
+        guardarPresupuesto({ categoriaId, monto, anio, mes });
+        formPresupuesto.reset();
+        setTimeout(cargarPresupuestos, 300);
+    });
 });
 
 function cargarPresupuestos() {
@@ -38,11 +43,10 @@ function cargarPresupuestos() {
                         const fechaTx = new Date(tx.fecha);
                         return tx.categoriaId === p.categoriaId &&
                             fechaTx.getFullYear() === anio &&
-                            (fechaTx.getMonth() + 1) === mes;
+                            fechaTx.getMonth() + 1 === mes;
                     });
 
-                    let totalIngresos = 0;
-                    let totalEgresos = 0;
+                    let totalIngresos = 0, totalEgresos = 0;
 
                     transaccionesCatMes.forEach(tx => {
                         if (tx.tipo === 'Ingreso') totalIngresos += tx.monto;
@@ -52,17 +56,24 @@ function cargarPresupuestos() {
                     const saldo = p.monto + totalIngresos - totalEgresos;
 
                     const li = document.createElement('li');
-                    li.classList.add('item-presupuesto');
+                    li.className = 'item-presupuesto';
 
                     const nombre = document.createElement('span');
                     nombre.className = 'nombre-categoria';
-                    nombre.textContent = (cat?.nombre || 'Sin categoría') + ':';
+                    nombre.textContent = `${cat?.nombre || 'Sin categoría'}:`;
 
                     const detalle = document.createElement('span');
                     detalle.className = 'detalle-monto';
-                    detalle.textContent =
-                        `Presupuesto: $${p.monto.toFixed(2)} | ` +
+                    detalle.innerHTML =
+                        `Presupuesto: $${p.monto.toFixed(2)}<br>` +
+                        `Ingresos: $${totalIngresos.toFixed(2)} | ` +
+                        `Egresos: $${totalEgresos.toFixed(2)}<br>` +
                         `Saldo actual: $${saldo.toFixed(2)} (${mes}/${anio})`;
+
+                    // Colores de advertencia
+                    const porcentaje = (totalEgresos / (p.monto + totalIngresos));
+                    if (porcentaje >= 1) li.style.backgroundColor = '#ffcccc';
+                    else if (porcentaje >= 0.8) li.style.backgroundColor = '#fff3cd';
 
                     const btnEliminar = document.createElement('button');
                     btnEliminar.textContent = 'Eliminar';
@@ -92,6 +103,4 @@ function cargarCategoriasEnPresupuesto() {
     });
 }
 
-// Hacer disponible globalmente
 window.cargarPresupuestos = cargarPresupuestos;
-
